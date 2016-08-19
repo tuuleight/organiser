@@ -1,0 +1,41 @@
+{% extends 'interactive_calendar/base.html' %}
+
+{% block content %}
+
+    {{ event.author }} <br>
+    {{ event.date_start }} <br>
+    {{ event.date_duration }} <br>
+    {{ event.name }} <br>
+    {{ event.text }} <br>
+    {{ event.attenders_num }} <br>
+    {{ event.attenders }} <br>
+    {{ event.invited }} <br>
+    {{ event.private }} <br>
+
+{% ifequal event.author|stringformat:"s" request.user.username %}
+
+Zaproś użytkownika do wydarzenia:
+
+<form method="post">
+{% csrf_token %}
+<input type="text" name="username" />
+<input type="submit" name="invite" value="submit" />
+</form>
+
+{% endifequal %}
+
+    {% if request.user.username not in event.attenders %}
+
+    <form method="post">
+          {% csrf_token %}
+    <input type="submit" name="attend" value="Attend" />
+    </form>
+
+    {% else %}
+        <form method="post">
+          {% csrf_token %}
+    <input type="submit" name="not_attend" value="Unattend" />
+    </form>
+
+    {% endif %}
+{% endblock content %}

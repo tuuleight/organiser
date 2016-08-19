@@ -1,0 +1,28 @@
+{% extends 'interactive_calendar/base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+Utwórz wydarzenie:
+
+<form method="POST" name="post_event">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">save</button>
+</form>
+
+Szukaj wydarzeń wg daty:
+   <form method="POST" name="datepicker">{% csrf_token %}
+    <p>Date: <input type="text" name="datepicker" id="datepicker"></p>
+   <input type="submit" value="check date" />
+    </form>
+
+{% endif %}
+
+    {% for e in ev %}
+        <a href="{% url 'event_page' pk=e.pk %}">{{ e.name }}</a> <br>
+        {{ e.author }} <br>
+        {{ e.date_start }} <br>
+    {% endfor %}
+
+{% endblock content %}

@@ -1,0 +1,11 @@
+{% extends 'interactive_calendar/base.html' %}
+
+{% block content %}
+
+    {% for e in event %}
+        <a href="{% url 'event_page' pk=e.pk %}">{{ e.name }}</a> <br>
+        {{ e.author }} <br>
+        {{ e.date_start }} <br>
+    {% endfor %}
+
+{% endblock content %}
