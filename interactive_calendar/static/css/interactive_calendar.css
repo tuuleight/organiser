@@ -1,0 +1,46 @@
+.page-header {
+    background-color: #3DB839;
+    padding: 20px 20px 20px 40px;
+    font-family: 'Indie Flower';
+    color: #ffffff;
+    font-size: 42pt;
+}
+
+.page-header a {
+    display: block;
+    color: #ffffff;
+    text-decoration: none;
+
+}
+
+body {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+
+ ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #D8F2D8;
+ }
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: #871364;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #B5DBB4;
+    text-decoration: none;
+    color: white;
+}

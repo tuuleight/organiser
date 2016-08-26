@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
       integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/interactive_calendar.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-  <script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <script>
   $( function() {
     $( "#datepicker" ).datepicker();
   } );
@@ -20,18 +21,27 @@
 </head>
 
 <body>
+<div class=page-header>
+   <a href="{% url 'index' %}">interactive calendar</a>
+</div>
+
 {% if user.is_authenticated %}
-<a href="{% url 'my' %}">moje wydarzenia</a>
-<a href="{% url 'attended' %}">biorę udział</a>
-<a href="{% url 'invited' %}">zaproszenia</a>
-    zalogowany jako: {{ user }}
-<a href="{% url 'logout' %}">sign out</a> <br>
+    <ul>
+        <li><a href="{% url 'my' %}">My events</a></li>
+        <li><a href="{% url 'attended' %}">I'm attending</a></li>
+        <li><a href="{% url 'invited' %}">I'm invited</a></li>
+        <li><a href="{% url 'logout' %}">Sign out {{ user }}</a></li>
+    </ul>
 
 {% else %}
-    <a href="{% url 'register' %}">create new account</a>
-    <a href="{% url 'login' %}">sign in</a> <br>
+
+    <ul>
+        <li><a href="{% url 'register' %}">Create new account</a></li>
+        <li><a href="{% url 'login' %}">sign in</a></li>
 
 {% endif %}
+
+    </ul>
 
 {% block content %}
 {% endblock %}

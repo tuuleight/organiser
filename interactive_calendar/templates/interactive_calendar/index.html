@@ -4,14 +4,14 @@
 
 {% if user.is_authenticated %}
 
-Utwórz wydarzenie:
+Add new event:
 
 <form method="POST" name="post_event">{% csrf_token %}
     {{ form.as_p }}
     <button type="submit">save</button>
 </form>
 
-Szukaj wydarzeń wg daty:
+Check calendar for events:
    <form method="POST" name="datepicker">{% csrf_token %}
     <p>Date: <input type="text" name="datepicker" id="datepicker"></p>
    <input type="submit" value="check date" />

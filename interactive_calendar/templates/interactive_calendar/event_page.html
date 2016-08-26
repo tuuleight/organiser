@@ -2,19 +2,19 @@
 
 {% block content %}
 
-    {{ event.author }} <br>
-    {{ event.date_start }} <br>
-    {{ event.date_duration }} <br>
-    {{ event.name }} <br>
-    {{ event.text }} <br>
-    {{ event.attenders_num }} <br>
-    {{ event.attenders }} <br>
-    {{ event.invited }} <br>
-    {{ event.private }} <br>
+    Event author: {{ event.author }} <br>
+    When will event start: {{ event.date_start }} <br>
+    How long will event last: {{ event.date_duration }} <br>
+    Event name: {{ event.name }} <br>
+    Event description: {{ event.text }} <br>
+    How many attenders: {{ event.attenders_num }} <br>
+    Who will attend: {{ event.attenders }} <br>
+    Who is invited: {{ event.invited }} <br>
+    Is event private(only with invitation): {{ event.private }} <br>
 
 {% ifequal event.author|stringformat:"s" request.user.username %}
 
-Zaproś użytkownika do wydarzenia:
+Invite user:
 
 <form method="post">
 {% csrf_token %}
@@ -28,13 +28,13 @@ Zaproś użytkownika do wydarzenia:
 
     <form method="post">
           {% csrf_token %}
-    <input type="submit" name="attend" value="Attend" />
+    <input type="submit" name="attend" value="Want to attend" />
     </form>
 
     {% else %}
         <form method="post">
           {% csrf_token %}
-    <input type="submit" name="not_attend" value="Unattend" />
+    <input type="submit" name="not_attend" value="Don't want to attend" />
     </form>
 
     {% endif %}
