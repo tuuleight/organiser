@@ -17,25 +17,23 @@
 Invite user:
 
 <form method="post">
-{% csrf_token %}
-<input type="text" name="username" />
-<input type="submit" name="invite" value="submit" />
+    {% csrf_token %}
+    <input type="text" name="username" />
+    <input type="submit" name="invite" value="submit">
 </form>
 
 {% endifequal %}
 
-    {% if request.user.username not in event.attenders %}
-
-    <form method="post">
-          {% csrf_token %}
-    <input type="submit" name="attend" value="Want to attend" />
-    </form>
+    {% if request.user.username in event.attenders %}
+        <form method="post">
+            {% csrf_token %}
+            <input type="submit" name="not_attend" value="Don't want to attend">
+        </form>
 
     {% else %}
         <form method="post">
           {% csrf_token %}
-    <input type="submit" name="not_attend" value="Don't want to attend" />
-    </form>
-
+            <input type="submit" name="attend" value="Want to attend">
+        </form>
     {% endif %}
 {% endblock content %}
