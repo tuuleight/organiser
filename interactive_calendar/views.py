@@ -1,7 +1,6 @@
 import datetime
 from django.views import View
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import UpdateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect, HttpResponse
@@ -133,54 +132,39 @@ class AttendedEvents(EventsList):
 
 class InvitedEvents(EventsList):
     """
-    For events
+    For events where current user is listed as 'invited'
     """
     def get_queryset(self):
         author = str(self.request.user)
         return Event.objects.filter(invited__contains=[author])
 
 
-def event_page(request, pk):
-    event = get_object_or_404(Event, pk=pk)
+class EventPage(DetailView):
+    model = Event
+    context_object_name = 'event'
+    template_name = 'interactive_calendar/event_page.html'
 
-    if 'invite' in request.POST:
-        username = request.POST.get('username')
-        us = User.objects.filter(username=str(username)).exists()
-        if us and event.invited is not None:
-            event.invited.append(str(username))
-            event.save()
-        else:
-            event.invited = [str(username)]
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if 'invite' in request.POST:
+            username = request.POST.get('username')
+            us = User.objects.filter(username=str(username)).exists()
+            if us:
+                self.object.update_invited(str(username))
+                self.object.save()
 
-    if 'attend' in request.POST:
-        if event.attenders is None:
-            event.attenders = [str(request.user)]
-        else:
-            event.attenders.append(str(request.user))
-        event.save()
+        if 'attend' in request.POST:
+            name = str(request.user)
+            self.object.add_attenders(name)
+            self.object.add_attenders_num()
+            self.object.save()
 
-    if 'not_attend' in request.POST:
-        event.attenders.remove(str(request.user))
-        event.save()
+        if 'not_attend' in request.POST:
+            name = str(request.user)
+            self.object.del_attenders(name)
+            self.object.del_attenders_num()
+            self.object.save()
 
-    if event.attenders is None:
-        pass
-    else:
-        event.attenders_num = len(event.attenders)
-
-    if event.invited is not None:
-        event.invited = list(set(event.invited))
-    if event.attenders is not None:
-        event.attenders = list(set(event.attenders))
-
-    if event.invited and event.attenders is not None:
-        for i in event.invited:
-            if i in event.attenders:
-                event.invited.remove(i)
-
-    event.save()
-
-    return render(
-        request, 'interactive_calendar/event_page.html',
-        {'event': event, }, )
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
 

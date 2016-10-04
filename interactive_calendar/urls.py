@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^my/$', views.MyEvents.as_view(), name='my'),
     url(r'^attended/$', views.AttendedEvents.as_view(), name='attended'),
     url(r'^invited/$', views.InvitedEvents.as_view(), name='invited'),
-    url(r'^event/(?P<pk>[0-9]+)/$', views.event_page, name='event_page'),
+    url(r'^event/(?P<pk>[0-9]+)/$', views.EventPage.as_view(),
+        name='event_page'),
     ]
