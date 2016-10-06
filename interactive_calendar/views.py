@@ -156,15 +156,12 @@ class EventPage(DetailView):
         if 'attend' in request.POST:
             name = str(request.user)
             self.object.add_attenders(name)
-            self.object.add_attenders_num()
             self.object.save()
 
         if 'not_attend' in request.POST:
             name = str(request.user)
             self.object.del_attenders(name)
-            self.object.del_attenders_num()
             self.object.save()
 
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
-

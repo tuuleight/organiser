@@ -9,6 +9,7 @@ class Event(models.Model):
     date_duration = models.DurationField(default=0)
     name = models.CharField(max_length=200)
     text = models.TextField()  # to describe the event
+    place = models.CharField(max_length=200, default='Kraków')
     attenders_num = models.IntegerField(default=0)
     attenders = ArrayField(
         models.CharField(max_length=100, blank=True, null=True),
@@ -24,12 +25,6 @@ class Event(models.Model):
     def __repr__(self):
         return 'Event %r created by %r' % (self.name, self.author)
 
-    def add_attenders_num(self):
-        self.attenders_num += 1
-
-    def del_attenders_num(self):
-        self.attenders_num -= 1
-
     def add_attenders(self, name):
         try:
             self.attenders.append(name)
@@ -41,10 +36,13 @@ class Event(models.Model):
         if name in self.invited:
             self.invited.remove(name)
 
+        self.attenders_num += 1
+
     def del_attenders(self, name):
         """ 'don't attend' button is displayed for current user only after
         joining to the event first, so no AttributeError handler needed"""
         self.attenders.remove(name)
+        self.attenders_num -= 1
 
     def update_invited(self, name):
         try:

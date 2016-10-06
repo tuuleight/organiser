@@ -9,7 +9,7 @@ class EventForm(forms.ModelForm):
         model = Event
         fields = (
             'date_start', 'date_duration',
-            'name', 'text', 'private',
+            'name', 'text', 'place', 'private',
             )
 
 
